@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface IStudyProgramService {
 
-    public StudyProgram save(StudyProgram studyprogram);
+    StudyProgram save(StudyProgram studyprogram);
 
-    public void delete(Long id);
+    void delete(Long id);
 
-    public List<StudyProgram> findAll();
+    List<StudyProgram> findAll();
 
-    public Optional<StudyProgram> findOne(Long id);
+    Optional<StudyProgram> findOne(Long id);
 }

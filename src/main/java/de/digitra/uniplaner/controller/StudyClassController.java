@@ -7,6 +7,8 @@ import de.digitra.uniplaner.interfaces.IStudyClassController;
 import de.digitra.uniplaner.service.StudyClassService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +23,17 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/studyclasss")
 public class StudyClassController implements IStudyClassController {
+
+    @Autowired
+    StudyClassService studyClassService;
+
     @Override
     public ResponseEntity<StudyClass> createStudyClass(StudyClass studyclass) throws BadRequestException {
-        return null;
+        if(studyclass.getId() != null) {
+            return new ResponseEntity<>(HttpStatus.valueOf(400));
+        }
+        studyClassService.save(studyclass);
+        return new ResponseEntity<>(studyclass, HttpStatus.valueOf(200));
     }
 
     @Override
@@ -51,8 +61,8 @@ public class StudyClassController implements IStudyClassController {
         return null;
     }
 
-    @GetMapping("/studyclasss")
+    /*@GetMapping("/studyclasss")
     public String studyclass() {
         return "/studyclasss";
-    }
+    }*/
 }
