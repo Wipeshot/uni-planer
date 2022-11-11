@@ -52,6 +52,7 @@ public class StudyClassController implements IStudyClassController {
             return new ResponseEntity<>(HttpStatus.valueOf(404));
         }
         studyClassService.delete(id);
+        studyclassDetails.setId(id);
         studyClassService.save(studyclassDetails);
         return new ResponseEntity<>(studyclassDetails, HttpStatus.valueOf(200));
     }

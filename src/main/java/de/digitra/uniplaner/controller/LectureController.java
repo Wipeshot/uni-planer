@@ -28,37 +28,50 @@ public class LectureController implements ILectureController {
 
     @Override
     public ResponseEntity<Lecture> createLecture(Lecture lecture) throws BadRequestException {
-        if(lecture.getId() != null || lecture.getStudyProgram() == null) {
-            return new ResponseEntity<>(HttpStatus.valueOf(400));
-        } else {
-            lectureService.save(lecture);
-            return new ResponseEntity<>(HttpStatus.valueOf(200));
+        if(lecture.getId() != null) {
+            return  new ResponseEntity<>(HttpStatus.valueOf(400));
         }
+        lectureService.save(lecture);
+        return new ResponseEntity<>(lecture, HttpStatus.valueOf(200));
     }
 
     @Override
     public ResponseEntity<Lecture> updateLecture(Lecture lecture) throws BadRequestException {
-        return null;
+        if(lecture.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.valueOf(400));
+        }
+        lectureService.delete(lecture.getId());
+        lectureService.save(lecture);
+        return new ResponseEntity<>(lecture, HttpStatus.valueOf(200));
     }
 
     @Override
     public ResponseEntity<Lecture> updatelecture(Long id, Lecture lectureDetails) throws ResourceNotFoundException {
-        return null;
+        if(!lectureService.findOne(id).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.valueOf(404));
+        }
+        lectureService.delete(id);
+        lectureDetails.setId(id);
+        lectureService.save(lectureDetails);
+        return new ResponseEntity<>(lectureDetails, HttpStatus.valueOf(200));
     }
 
     @Override
     public ResponseEntity<List<Lecture>> getAllLectures() {
-        return null;
+        return new ResponseEntity<>(lectureService.findAll(), HttpStatus.valueOf(200));
     }
 
     @Override
     public ResponseEntity<Lecture> getLecture(Long id) throws ResourceNotFoundException {
-        return null;
+        if(!lectureService.findOne(id).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.valueOf(404));
+        }
+        return new ResponseEntity<>(lectureService.findOne(id).orElse(new Lecture()), HttpStatus.valueOf(200));
     }
 
     @Override
     public ResponseEntity<Void> deleteLecture(Long id) {
-        return null;
+        lectureService.delete(id);
+        return new ResponseEntity<>(HttpStatus.valueOf(204));
     }
-
 }

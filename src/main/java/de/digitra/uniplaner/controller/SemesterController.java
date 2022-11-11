@@ -47,9 +47,10 @@ public class SemesterController implements ISemesterController {
     @Override
     public ResponseEntity<Semester> updateSemester(Long id, Semester semesterDetails) throws ResourceNotFoundException {
         if(!semesterService.findOne(id).isPresent()) {
-            return new ResponseEntity<>(HttpStatus.valueOf(400));
+            return new ResponseEntity<>(HttpStatus.valueOf(404));
         }
         semesterService.delete(id);
+        semesterDetails.setId(id);
         semesterService.save(semesterDetails);
         return new ResponseEntity<>(semesterDetails, HttpStatus.valueOf(200));
     }
@@ -62,7 +63,7 @@ public class SemesterController implements ISemesterController {
     @Override
     public ResponseEntity<Semester> getSemester(Long id) throws ResourceNotFoundException {
         if(!semesterService.findOne(id).isPresent()) {
-            return new ResponseEntity<>(HttpStatus.valueOf(400));
+            return new ResponseEntity<>(HttpStatus.valueOf(404));
         }
         return new ResponseEntity<>(semesterService.findOne(id).orElse(new Semester()), HttpStatus.valueOf(200));
     }

@@ -61,6 +61,7 @@ public class LecturerController implements ILecturerController {
             return new ResponseEntity<>(HttpStatus.valueOf(404));
         }
         lecturerService.delete(id);
+        lecturerDetails.setId(id);
         lecturerService.save(lecturerDetails);
         return new ResponseEntity<>(lecturerDetails, HttpStatus.valueOf(200));
     }
@@ -73,7 +74,7 @@ public class LecturerController implements ILecturerController {
     @Override
     public ResponseEntity<Lecturer> getLecturer(Long id) throws ResourceNotFoundException {
         if(!lecturerService.findOne(id).isPresent()) {
-            return new ResponseEntity<>(HttpStatus.valueOf(400));
+            return new ResponseEntity<>(HttpStatus.valueOf(404));
         }
         return new ResponseEntity<>(lecturerService.findOne(id).orElse(new Lecturer()), HttpStatus.valueOf(200));
     }

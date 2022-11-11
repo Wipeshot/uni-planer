@@ -43,11 +43,12 @@ public class StudyProgramController implements IStudyProgramController {
     @Override
     public ResponseEntity<StudyProgram> updateStudyProgram(Long id, StudyProgram studyProgramDetails) throws ResourceNotFoundException {
         if(!studyProgramService.findOne(id).isPresent()) {
-            return new ResponseEntity<>(HttpStatus.valueOf(400));
+            return new ResponseEntity<>(HttpStatus.valueOf(404));
         }
         Optional<StudyProgram> programToUpdate = studyProgramService.findOne(id);
         StudyProgram toUpdate = programToUpdate.orElse(new StudyProgram());
         studyProgramService.delete(toUpdate.getId());
+        toUpdate.setId(id);
         studyProgramService.save(toUpdate);
         return new ResponseEntity<>(toUpdate, HttpStatus.valueOf(200));
     }
