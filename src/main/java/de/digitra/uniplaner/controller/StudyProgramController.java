@@ -75,8 +75,4 @@ public class StudyProgramController implements IStudyProgramController {
         return new ResponseEntity<>(HttpStatus.valueOf(204));
     }
 
-    @GetMapping("/studyprograms")
-    public String getStudyProgram() {
-        return "/studyprograms";
-    }
 }

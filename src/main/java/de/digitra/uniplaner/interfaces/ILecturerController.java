@@ -4,8 +4,6 @@ import de.digitra.uniplaner.domain.Lecturer;
 import de.digitra.uniplaner.exceptions.BadRequestException;
 import de.digitra.uniplaner.exceptions.DuplicateEmailException;
 import de.digitra.uniplaner.exceptions.ResourceNotFoundException;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,7 +54,7 @@ public interface ILecturerController {
      * @return Eine {@link ResponseEntity} mit Status Code {@code 200 (OK)} and im Body eine Liste von Ressourcen vom Typ Lecturer.
      */
     @GetMapping
-    ResponseEntity<List<Lecturer>> getAlllecturers();
+    ResponseEntity<List<Lecturer>> getAllLecturers();
 
     /**
      * {@code GET  /lecturers/:id} : Liefert die Ressource vom Typ Lecturer mit der angegebenen Id zurück.

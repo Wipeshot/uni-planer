@@ -8,6 +8,8 @@ import de.digitra.uniplaner.interfaces.ILecturerController;
 import de.digitra.uniplaner.service.LecturerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,33 +24,63 @@ import java.util.Optional;
 @RequestMapping("/lecturers")
 public class LecturerController implements ILecturerController {
 
+    @Autowired
+    LecturerService lecturerService;
+
     @Override
     public ResponseEntity<Lecturer> createLecturer(Lecturer lecturer) throws BadRequestException, DuplicateEmailException {
-        return null;
+        if(lecturer.getId() != null) {
+            return new ResponseEntity<>(HttpStatus.valueOf(400));
+        }
+        boolean duplicatedEMail = false;
+        for (Lecturer lec : lecturerService.findAll()) {
+            if(lecturer.getId() == lec.getId()) {
+                duplicatedEMail = false;
+            }
+        }
+        if(duplicatedEMail) {
+            return new ResponseEntity<>(HttpStatus.valueOf(400));
+        }
+        lecturerService.save(lecturer);
+        return new ResponseEntity<>(lecturer, HttpStatus.valueOf(200));
     }
 
     @Override
     public ResponseEntity<Lecturer> updateLecturer(Lecturer lecturer) throws BadRequestException {
-        return null;
+        if(lecturer.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.valueOf(400));
+        }
+        lecturerService.delete(lecturer.getId());
+        lecturerService.save(lecturer);
+        return new ResponseEntity<>(lecturer, HttpStatus.valueOf(200));
     }
 
     @Override
     public ResponseEntity<Lecturer> updateLecturer(Long id, Lecturer lecturerDetails) throws ResourceNotFoundException {
-        return null;
+        if(!lecturerService.findOne(id).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.valueOf(404));
+        }
+        lecturerService.delete(id);
+        lecturerService.save(lecturerDetails);
+        return new ResponseEntity<>(lecturerDetails, HttpStatus.valueOf(200));
     }
 
     @Override
-    public ResponseEntity<List<Lecturer>> getAlllecturers() {
-        return null;
+    public ResponseEntity<List<Lecturer>> getAllLecturers() {
+        return new ResponseEntity<>(lecturerService.findAll(), HttpStatus.valueOf(200));
     }
 
     @Override
     public ResponseEntity<Lecturer> getLecturer(Long id) throws ResourceNotFoundException {
-        return null;
+        if(!lecturerService.findOne(id).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.valueOf(400));
+        }
+        return new ResponseEntity<>(lecturerService.findOne(id).orElse(new Lecturer()), HttpStatus.valueOf(200));
     }
 
     @Override
     public ResponseEntity<Void> deleteLecturer(Long id) {
-        return null;
+        lecturerService.delete(id);
+        return new ResponseEntity<>(HttpStatus.valueOf(204));
     }
 }

@@ -3,8 +3,6 @@ package de.digitra.uniplaner.interfaces;
 import de.digitra.uniplaner.domain.StudyClass;
 import de.digitra.uniplaner.exceptions.BadRequestException;
 import de.digitra.uniplaner.exceptions.ResourceNotFoundException;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +51,7 @@ public interface IStudyClassController {
      * @return Eine {@link ResponseEntity} mit Status Code {@code 200 (OK)} and im Body eine Liste von Ressourcen vom Typ StudyClass.
      */
     @GetMapping
-    ResponseEntity<List<StudyClass>> getAllstudyclasss();
+    ResponseEntity<List<StudyClass>> getAllStudyClass();
 
     /**
      * {@code GET  /studyclasses/:id} : Liefert die Ressource vom Typ StudyClass mit der angegebenen Id zurück.

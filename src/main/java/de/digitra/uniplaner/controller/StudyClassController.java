@@ -38,31 +38,44 @@ public class StudyClassController implements IStudyClassController {
 
     @Override
     public ResponseEntity<StudyClass> updateStudyClass(StudyClass studyclass) throws BadRequestException {
-        return null;
+        if(studyclass.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.valueOf(400));
+        }
+        studyClassService.delete(studyclass.getId());
+        studyClassService.save(studyclass);
+        return new ResponseEntity<>(studyclass, HttpStatus.valueOf(200));
     }
 
     @Override
     public ResponseEntity<StudyClass> updateStudyClass(Long id, StudyClass studyclassDetails) throws ResourceNotFoundException {
-        return null;
+        if(!studyClassService.findOne(id).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.valueOf(404));
+        }
+        studyClassService.delete(id);
+        studyClassService.save(studyclassDetails);
+        return new ResponseEntity<>(studyclassDetails, HttpStatus.valueOf(200));
     }
 
     @Override
-    public ResponseEntity<List<StudyClass>> getAllstudyclasss() {
-        return null;
+    public ResponseEntity<List<StudyClass>> getAllStudyClass() {
+        return new ResponseEntity<>(studyClassService.findAll(), HttpStatus.valueOf(200));
     }
 
     @Override
     public ResponseEntity<StudyClass> getStudyClass(Long id) throws ResourceNotFoundException {
-        return null;
+        if(!studyClassService.findOne(id).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.valueOf(404));
+        }
+        return new ResponseEntity<>(studyClassService.findOne(id).orElse(new StudyClass()), HttpStatus.valueOf(200));
     }
 
     @Override
     public ResponseEntity<Void> deleteStudyClass(Long id) {
-        return null;
+        if(!studyClassService.findOne(id).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.valueOf(404));
+        }
+        studyClassService.delete(id);
+        return new ResponseEntity<>(HttpStatus.valueOf(204));
     }
 
-    /*@GetMapping("/studyclasss")
-    public String studyclass() {
-        return "/studyclasss";
-    }*/
 }

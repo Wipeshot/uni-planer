@@ -61,8 +61,4 @@ public class LectureController implements ILectureController {
         return null;
     }
 
-    @GetMapping("/lectures")
-    public String getLectures() {
-        return "/lectures";
-    }
 }
