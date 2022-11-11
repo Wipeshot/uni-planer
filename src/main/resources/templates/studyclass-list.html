@@ -27,7 +27,7 @@
 
             <div style="margin-bottom: 5px;">
                 <a th:href="@{/web/studyclasss/create}" class="btn btn btn-success" role="button">
-                    <i class="fa fa-users" aria-hidden="true"></i> StudyClass hinzufügen</a>
+                    <i class="fa fa-users" aria-hidden="true"></i> Kurs hinzufügen</a>
             </div>
 
 
@@ -41,10 +41,10 @@
                         <table class="table ">
                             <thead>
                             <tr>
-                                                                                               <th>name</th>
-                                                                   <th>startDate</th>
-                                                                   <th>endDate</th>
-                                                                   <th>studyProgram</th>
+                                                                                               <th>Bezeichnung</th>
+                                                                   <th>Beginn</th>
+                                                                   <th>Ende</th>
+                                                                   <th>Studiengang</th>
                                                             
                             <th></th>
                             </tr>
@@ -55,7 +55,7 @@
                                                                      <td th:text="${studyclass.name}"></td>
                                                                      <td th:text="${studyclass.startDate}"></td>
                                                                      <td th:text="${studyclass.endDate}"></td>
-                                                                     <td th:text="${studyclass.studyProgram}"></td>
+                                                                     <td th:text="${studyclass.studyProgram.getName()}"></td>
                                                                 <td>
                                     <input id="studyclassid" type="hidden" th:value="${studyclass.id}" >
                                     <a th:href="@{/web/studyclasss/edit/{id}(id=${studyclass.id})}" class="btn btn-success btn-sm" role="button">Bearbeiten</a>
